@@ -2,111 +2,83 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Attendance Dashboard</title>
+<title>Student ERP Login</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background:#f3f4f6;
+body{
     margin:0;
-}
-.header {
-    text-align:center;
-    padding:20px;
-    background:#1e293b;
-    color:white;
-}
-.notice {
-    background:#ffefc2;
-    padding:10px;
-    text-align:center;
-    font-weight:bold;
-}
-.stats {
+    font-family:'Segoe UI', sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
     display:flex;
+    align-items:center;
     justify-content:center;
-    gap:40px;
-    padding:20px;
-    font-weight:bold;
+    height:100vh;
 }
-.container {
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
-    gap:20px;
-    padding:20px;
-}
-.card {
+.login-box{
     background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.08);
+    padding:40px;
+    width:350px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
-.subject {
+h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+button{
+    width:100%;
+    padding:10px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
     font-weight:bold;
-    margin-bottom:10px;
 }
-.green { color:green; }
-.red { color:red; }
+button:hover{
+    background:#1d4ed8;
+}
+.error{
+    color:red;
+    text-align:center;
+    font-size:14px;
+}
 </style>
 </head>
-
 <body>
 
-<div class="notice">
-This is a public link created on demand of student for attendance.  
-This attendance is updated till 18 February 2026 for 4th semester and will be destroyed after 2 days.
+<div class="login-box">
+<h2>Student ERP Portal</h2>
+
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<div class="error" id="error"></div>
+
 </div>
-
-<div class="header">
-<h1>Goswami Ganesh Dutta Sanatan Dharam College</h1>
-<h3>Attendance Dashboard - 4th Semester</h3>
-</div>
-
-<div class="stats">
-<div>Total Lectures: 210</div>
-<div class="green">Total Attended: 192</div>
-<div class="red">Total Absent: 18</div>
-<div>Attendance: 91.43%</div>
-</div>
-
-<div class="container">
-
-<!-- 15 Lecture Subjects (14 attended each = 93.33%) -->
 
 <script>
-const subjects = [
-["English-4","AEC4-401",15,14],
-["Consumer Law and Practice-Commerce","VAC4-CLP",15,14],
-["Auditing & Secretarial Practice","NBCM-402",15,14],
-["Custom Laws","NBCM-TPM403",15,14],
-["Financial Markets and Services","NBCM-404",15,14],
-["Punjabi","PUN4-101",15,14],
-["Maths","MTH4-102",15,14],
-["Computer Applications","CA4-103",15,14],
-["English","ENG4-104",15,14],
-["Digital Marketing","DM4-105",15,14],
-["Tax Management","TM4-106",15,14]
-];
+function login(){
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
 
-// 30 Lecture Subjects
-subjects.push(["Cost Management","NBCM-401",30,27]);
-subjects.push(["Advanced Accounting","NBCM-405",30,27]);
+    // CHANGE THESE
+    const correctUser = "student4";
+    const correctPass = "ggdsd2026";
 
-subjects.forEach(sub => {
-let absent = sub[2] - sub[3];
-let percent = ((sub[3]/sub[2])*100).toFixed(2);
-document.write(`
-<div class="card">
-<div class="subject">${sub[0]} (${sub[1]})</div>
-Total Lectures: ${sub[2]}<br>
-Present: <span class="green">${sub[3]}</span><br>
-Absent: <span class="red">${absent}</span><br>
-Attendance: ${percent}%
-</div>
-`);
-});
+    if(user === correctUser && pass === correctPass){
+        window.location.href = "dashboard.html";
+    } else {
+        document.getElementById("error").innerText = "Invalid Credentials";
+    }
+}
 </script>
-
-</div>
 
 </body>
 </html>
