@@ -2,66 +2,192 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ERP Login</title>
+<title>Attendance Portal</title>
 <style>
+
 body{
     margin:0;
-    font-family:Segoe UI, sans-serif;
-    background:#f1f3f6;
+    font-family: 'Segoe UI', sans-serif;
+    background:#eef2f7;
+}
+
+/* NOTICE */
+.notice{
+    background:#ffedc2;
+    padding:12px;
+    text-align:center;
+    font-weight:600;
+    font-size:14px;
+}
+
+/* HEADER */
+.header{
+    background:#0f172a;
+    color:white;
+    padding:25px;
+    text-align:center;
+}
+.header h1{
+    margin:0;
+    font-size:26px;
+}
+
+/* STATS BAR */
+.stats{
     display:flex;
     justify-content:center;
-    align-items:center;
-    height:100vh;
-}
-.box{
+    gap:50px;
+    padding:20px;
     background:white;
-    padding:40px;
-    width:350px;
-    border-radius:8px;
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
+    font-weight:600;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
-h2{text-align:center;margin-bottom:25px;}
-input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    border:1px solid #ccc;
-    border-radius:5px;
+.stat-box{
+    text-align:center;
 }
-button{
-    width:100%;
-    padding:10px;
-    background:#4f46e5;
+.green{color:#16a34a;}
+.red{color:#dc2626;}
+.blue{color:#2563eb;}
+
+/* SUBJECT GRID */
+.container{
+    padding:30px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:20px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+.card:hover{
+    transform:translateY(-3px);
+}
+
+.subject-title{
+    font-weight:700;
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.code{
+    background:#f43f5e;
     color:white;
-    border:none;
-    border-radius:5px;
-    font-weight:bold;
-    cursor:pointer;
+    font-size:12px;
+    padding:3px 8px;
+    border-radius:20px;
+    float:right;
 }
-.error{color:red;text-align:center;font-size:14px;}
+
+.circle{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:conic-gradient(#16a34a var(--percent), #e5e7eb 0%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.details{
+    font-size:14px;
+    line-height:1.6;
+}
+
 </style>
 </head>
 <body>
 
-<div class="box">
-<h2>Student ERP Login</h2>
-<input type="text" id="user" placeholder="Username">
-<input type="password" id="pass" placeholder="Password">
-<button onclick="login()">Login</button>
-<div class="error" id="error"></div>
+<div class="notice">
+This is a public link created on demand of student for attendance.  
+This attendance is updated till 18 February 2026 for 4th semester and will be destroyed after 2 days.
 </div>
 
+<div class="header">
+<h1>Goswami Ganesh Dutta Sanatan Dharam College</h1>
+<h3>4th Semester Attendance Dashboard</h3>
+</div>
+
+<div class="stats">
+<div class="stat-box">
+Total Lectures<br>
+<span class="blue">210</span>
+</div>
+<div class="stat-box">
+Present<br>
+<span class="green">192</span>
+</div>
+<div class="stat-box">
+Absent<br>
+<span class="red">18</span>
+</div>
+<div class="stat-box">
+Attendance<br>
+<span class="blue">91.43%</span>
+</div>
+</div>
+
+<div class="container" id="subjects"></div>
+
 <script>
-function login(){
-    if(
-        document.getElementById("user").value==="student4" &&
-        document.getElementById("pass").value==="ggdsd2026"
-    ){
-        window.location.href="dashboard.html";
-    }else{
-        document.getElementById("error").innerText="Invalid Credentials";
-    }
-}
+
+const subjects = [
+
+["English-4","AEC4-401",15,14],
+["Consumer Law and Practice-Commerce","VAC4-CLP",15,14],
+["Auditing & Secretarial Practice","NBCM-402",15,14],
+["Custom Laws","NBCM-TPM403",15,14],
+["Financial Markets and Services","NBCM-404",15,14],
+["Punjabi","PUN4-101",15,14],
+["Maths","MTH4-102",15,14],
+["Computer Applications","CA4-103",15,14],
+["English","ENG4-104",15,14],
+["Digital Marketing","DM4-105",15,14],
+["Tax Management","TM4-106",15,14],
+["Cost Management","NBCM-401",30,27],
+["Advanced Accounting","NBCM-405",30,27]
+
+];
+
+const container = document.getElementById("subjects");
+
+subjects.forEach(sub => {
+
+let total = sub[2];
+let present = sub[3];
+let absent = total - present;
+let percent = ((present/total)*100).toFixed(2);
+
+let card = document.createElement("div");
+card.className = "card";
+
+card.innerHTML = `
+<div class="subject-title">
+${sub[0]} <span class="code">${sub[1]}</span>
+</div>
+
+<div class="circle" style="--percent:${percent}%;">
+${percent}%
+</div>
+
+<div class="details">
+Total Lectures: ${total} <br>
+Present: <span class="green">${present}</span><br>
+Absent: <span class="red">${absent}</span>
+</div>
+`;
+
+container.appendChild(card);
+
+});
+
 </script>
 
 </body>
