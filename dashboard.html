@@ -6,97 +6,73 @@
 <style>
 body{
     margin:0;
-    font-family:Segoe UI, sans-serif;
-    background:#f3f4f6;
+    font-family: 'Segoe UI', sans-serif;
+    background:#eef2f7;
 }
-
-/* IMPORTANT NOTICE */
 .notice{
-    background:#fff3cd;
-    padding:10px;
+    background:#ffedc2;
+    padding:12px;
     text-align:center;
     font-weight:600;
 }
-
-/* HEADER */
 .header{
+    background:#0f172a;
+    color:white;
+    padding:25px;
     text-align:center;
-    padding:15px;
-    background:#ffffff;
-    font-weight:700;
-    font-size:20px;
 }
-
-/* TOP BAR */
-.topbar{
+.stats{
     display:flex;
-    justify-content:space-around;
-    padding:15px;
-    background:white;
-    border-bottom:1px solid #ddd;
-    font-weight:600;
-}
-
-.progress-container{
-    width:200px;
-    height:8px;
-    background:#e5e7eb;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:5px;
-}
-.progress{
-    height:100%;
-    background:#10b981;
-    width:91.43%;
-}
-
-/* GRID */
-.container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:20px;
+    justify-content:center;
+    gap:50px;
     padding:20px;
+    background:white;
+    font-weight:600;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
+.stat-box{text-align:center;}
+.green{color:#16a34a;}
+.red{color:#dc2626;}
+.blue{color:#2563eb;}
 
-/* CARD */
+.container{
+    padding:30px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:20px;
+}
 .card{
     background:white;
+    border-radius:12px;
     padding:20px;
-    border-radius:8px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
-.subject{
+.subject-title{
     font-weight:700;
     margin-bottom:10px;
 }
 .code{
-    float:right;
-    background:#ff6b6b;
+    background:#f43f5e;
     color:white;
+    font-size:12px;
     padding:3px 8px;
     border-radius:20px;
-    font-size:12px;
+    float:right;
 }
 .circle{
-    width:80px;
-    height:80px;
+    width:90px;
+    height:90px;
     border-radius:50%;
-    background:conic-gradient(#22c55e var(--percent), #e5e7eb 0%);
+    background:conic-gradient(#16a34a var(--percent), #e5e7eb 0%);
     display:flex;
     align-items:center;
     justify-content:center;
-    font-weight:700;
-    margin-bottom:10px;
+    font-weight:bold;
+    margin-bottom:15px;
 }
-.details{
-    font-size:14px;
-}
-.green{color:#22c55e;}
-.red{color:#ef4444;}
+.details{font-size:14px;line-height:1.6;}
 </style>
 </head>
-
 <body>
 
 <div class="notice">
@@ -105,72 +81,59 @@ This attendance is updated till 18 February 2026 for 4th semester and will be de
 </div>
 
 <div class="header">
-Goswami Ganesh Dutta Sanatan Dharam College
+<h1>Goswami Ganesh Dutta Sanatan Dharam College</h1>
+<h3>4th Semester Attendance Dashboard</h3>
 </div>
 
-<div class="topbar">
-<div>Total Lectures<br><span>210</span></div>
-<div class="green">Present<br><span>192</span></div>
-<div class="red">Absent<br><span>18</span></div>
-<div>
-Attendance 91.43%
-<div class="progress-container">
-<div class="progress"></div>
-</div>
-</div>
+<div class="stats">
+<div class="stat-box">Total Lectures<br><span class="blue">210</span></div>
+<div class="stat-box">Present<br><span class="green">192</span></div>
+<div class="stat-box">Absent<br><span class="red">18</span></div>
+<div class="stat-box">Attendance<br><span class="blue">91.43%</span></div>
 </div>
 
 <div class="container" id="subjects"></div>
 
 <script>
-
 const subjects = [
 ["English-4","AEC4-401",15,14],
 ["Consumer Law and Practice-Commerce","VAC4-CLP",15,14],
-["Cost Management","NBCM-401",30,27],
 ["Auditing & Secretarial Practice","NBCM-402",15,14],
 ["Custom Laws","NBCM-TPM403",15,14],
 ["Financial Markets and Services","NBCM-404",15,14],
-["Advanced Accounting","NBCM-405",30,27],
 ["Punjabi","PUN4-101",15,14],
 ["Maths","MTH4-102",15,14],
 ["Computer Applications","CA4-103",15,14],
 ["English","ENG4-104",15,14],
 ["Digital Marketing","DM4-105",15,14],
-["Tax Management","TM4-106",15,14]
+["Tax Management","TM4-106",15,14],
+["Cost Management","NBCM-401",30,27],
+["Advanced Accounting","NBCM-405",30,27]
 ];
 
 const container = document.getElementById("subjects");
 
-subjects.forEach(sub=>{
-let total=sub[2];
-let present=sub[3];
-let absent=total-present;
-let percent=((present/total)*100).toFixed(2);
+subjects.forEach(sub => {
+let total = sub[2];
+let present = sub[3];
+let absent = total - present;
+let percent = ((present/total)*100).toFixed(2);
 
-let card=document.createElement("div");
-card.className="card";
-card.innerHTML=`
-<div class="subject">
+let card = document.createElement("div");
+card.className = "card";
+card.innerHTML = `
+<div class="subject-title">
 ${sub[0]} <span class="code">${sub[1]}</span>
 </div>
-
-<div class="circle" style="--percent:${percent}%">
-${percent}%
-</div>
-
+<div class="circle" style="--percent:${percent}%;">${percent}%</div>
 <div class="details">
 Total Lectures: ${total}<br>
 Present: <span class="green">${present}</span><br>
-Absent: <span class="red">${absent}</span><br>
-Activities (1)<br>
-Theory: ${percent}%
+Absent: <span class="red">${absent}</span>
 </div>
 `;
-
 container.appendChild(card);
 });
-
 </script>
 
 </body>
